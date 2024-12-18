@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'E-commerce application infrastructure with EKS, S3, and API Gateway'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: dev
+    Description: Environment name
+
+Resources:
+  EcommerceS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${EnvironmentName}-ecommerce-frontend
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+  EKSCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      Name: !Sub ${EnvironmentName}-ecommerce-cluster
+      Version: "1.28"
+      RoleArn: !GetAtt EKSClusterRole.Arn
+      ResourcesVpcConfig:
+        SecurityGroupIds: 
+          - !Ref EKSSecurityGroup
+        SubnetIds: 
+          - !Ref PublicSubnet1
+          - !Ref PublicSubnet2
+
+  ApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub ${EnvironmentName}-ecommerce-api
+      Description: API Gateway for e-commerce application
+
+Outputs:
+  S3WebsiteURL:
+    Description: URL for website hosted on S3
+    Value: !GetAtt EcommerceS3Bucket.WebsiteURL
