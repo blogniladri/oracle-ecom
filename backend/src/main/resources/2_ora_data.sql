@@ -1,3 +1,5 @@
+ALTER SESSION SET current_schema = QDev
+
 -- Insert sample products
 INSERT INTO products (id, name, description, price, image_url, stock_quantity)
 VALUES (products_seq.NEXTVAL, 'Laptop', 'High-performance laptop with 16GB RAM, 512GB SSD.', 999.99, 'http://example.com/laptop.jpg', 50);
@@ -8,7 +10,7 @@ VALUES (products_seq.NEXTVAL, 'Smartphone', 'Latest model smartphone with 128GB 
 INSERT INTO products (id, name, description, price, image_url, stock_quantity)
 VALUES (products_seq.NEXTVAL, 'Headphones', 'Noise-cancelling wireless headphones.', 199.99, 'http://example.com/headphones.jpg', 200);
 
-INSERT INTO QDev.products (id, name, description, price, image_url, stock_quantity)
+INSERT INTO products (id, name, description, price, image_url, stock_quantity)
 VALUES (products_seq.NEXTVAL, 'Smartwatch', 'Fitness smartwatch with heart rate monitoring.', 149.99, 'http://example.com/smartwatch.jpg', 150);
 
 -- Insert sample cart items
