@@ -1,3 +1,5 @@
+ALTER SESSION SET current_schema = QDev
+
 CREATE SEQUENCE products_seq START WITH 1;
 CREATE SEQUENCE orders_seq START WITH 1;
 
@@ -13,7 +15,7 @@ CREATE TABLE products (
 CREATE TABLE cart_items (
     product_id NUMBER PRIMARY KEY,
     quantity NUMBER NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES QDev.products(id)
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 CREATE TABLE orders (
@@ -32,6 +34,6 @@ CREATE TABLE order_items (
     quantity NUMBER NOT NULL,
     price NUMBER(10,2) NOT NULL,
     PRIMARY KEY (order_id, product_id),
-    FOREIGN KEY (order_id) REFERENCES QDev.orders(id),
-    FOREIGN KEY (product_id) REFERENCES QDev.products(id)
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
