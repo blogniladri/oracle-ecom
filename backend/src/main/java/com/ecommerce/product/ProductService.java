@@ -27,6 +27,35 @@ public class ProductService {
         });
     }
 
+    public List<Product> getProductsRowNum(Long row) {
+        String sql = "SELECT name FROM products WHERE ROWNUM <= ?";
+        return jdbcTemplate.query(sql, new Object[]{row}, (rs, rowNum) -> {
+            Product product = new Product();
+            product.setId(rs.getLong("id"));
+            product.setName(rs.getString("name"));
+            product.setDescription(rs.getString("description"));
+            product.setPrice(rs.getBigDecimal("price"));
+            product.setImageUrl(rs.getString("image_url"));
+            product.setStockQuantity(rs.getInt("stock_quantity"));
+            return product;
+        });
+    }
+
+    public List<String> getMfgCodes() {
+        String sql = "SELECT DISTINCT(SUBSTR(name, 1, 3)) AS mfg_code FROM products";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return rs.getString("mfg_code");
+        });
+    }
+
+
+    public List<String> findProductByRegex(String pattern) {
+        String sql = "SELECT name FROM products WHERE REGEXP_LIKE(name, ?)";
+        return jdbcTemplate.query(sql, new Object[]{pattern}, (rs, rowNum) -> {
+            return rs.getString("name");
+        });
+    }
+
     public Optional<Product> getProductById(Long id) {
         String sql = "SELECT id, name, description, price, image_url, stock_quantity FROM products WHERE id = ?";
         try {
