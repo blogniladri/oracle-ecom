@@ -28,7 +28,7 @@ public class ProductService {
     }
 
     public List<Product> getProductsRowNum(Long row) {
-        String sql = "SELECT name FROM products WHERE ROWNUM <= ?";
+        String sql = "SELECT * FROM products WHERE ROWNUM <= ?";
         return jdbcTemplate.query(sql, new Object[]{row}, (rs, rowNum) -> {
             Product product = new Product();
             product.setId(rs.getLong("id"));
