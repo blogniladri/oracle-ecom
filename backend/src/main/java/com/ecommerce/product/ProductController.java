@@ -18,6 +18,21 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/rownum/{row}")
+    public List<Product> getProductsRowNum(Long row) {
+        return productService.getProductsRowNum(row);
+    }
+
+    @GetMapping("/mfg")
+    public List<String> getMfgCodes() {
+        return productService.getMfgCodes();
+    }
+
+    @GetMapping("/mfg/{exp}")
+    public List<String> getMfgCodes(@PathVariable String exp) {
+        return productService.findProductByRegex(exp);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return productService.getProductById(id)
